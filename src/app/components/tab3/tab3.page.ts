@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TareasService } from "../services/tareas.service";
+import { TareasService } from "../../services/tareas.service";
 
 @Component({
   selector: 'app-tab3',

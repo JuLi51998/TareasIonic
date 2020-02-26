@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Tarea } from "../models/tarea";
+import { Evento } from "../models/evento";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,14 @@ export class TareasService {
   getTarea(id: string) {
     return this.http.get(`${this.API_URI}/tareas/${id}`)
   }
+  getEventos() {
+    return this.http.get(`${this.API_URI}/eventos`)
+  }
   saveTarea(tarea: Tarea){
     return this.http.post(`${this.API_URI}/tareas`, tarea)
+  }
+  saveEvent(evento: Evento) {
+    return this.http.post(`${this.API_URI}/eventos`, evento)
   }
   deleteTarea(id: string) {
     return this.http.delete(`${this.API_URI}/tareasi${id}`)

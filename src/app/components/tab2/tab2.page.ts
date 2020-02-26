@@ -3,16 +3,17 @@ import { CalendarComponent } from 'ionic2-calendar/calendar';
 import { AlertController } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 
+import { TareasService } from "../../services/tareas.service";
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-
   event = {
     title: '',
-    desc: '',
+    descr: '',
     startTime: '',
     endTime: '',
     allDay: false
@@ -20,26 +21,47 @@ export class Tab2Page implements OnInit {
  
   minDate = new Date().toISOString();
  
-  eventSource = [];
+  eventSource: any = {};
   viewTitle;
  
   calendar = {
-    mode: 'day',
+    mode: 'month',
     currentDate: new Date(),
   };
  
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
  
-  constructor(private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string) { }
-
+  constructor(private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string, private tareaService: TareasService) { }
+ 
   ngOnInit() {
     this.resetEvent();
+    this.tareaService.getEventos().subscribe(
+      res => {
+        this.eventSource = res[0]
+        console.log(this.eventSource)
+        this.myCal.loadEvents();
+      },
+      err => console.log(err)
+    )
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+    this.tareaService.getEventos().subscribe(
+      res => {
+        console.log(res)
+        this.myCal.loadEvents();
+        event.target.complete();
+        console.log('Async operation has ended');
+      },
+      err => console.log(err)
+    )
   }
  
   resetEvent() {
     this.event = {
       title: '',
-      desc: '',
+      descr: '',
       startTime: new Date().toISOString(),
       endTime: new Date().toISOString(),
       allDay: false
@@ -53,7 +75,7 @@ export class Tab2Page implements OnInit {
       startTime:  new Date(this.event.startTime),
       endTime: new Date(this.event.endTime),
       allDay: this.event.allDay,
-      desc: this.event.desc
+      desc: this.event.descr
     }
  
     if (eventCopy.allDay) {
@@ -93,8 +115,8 @@ export class Tab2Page implements OnInit {
 
     const alert = await this.alertCtrl.create({
       header: event.title,
-      subHeader: event.desc,
-      message: 'From: ' + start + '<br><br>To: ' + end,
+      subHeader: event.descr,
+      message: 'Desde: ' + start + '<br><br>Hasta: ' + end,
       buttons: ['OK']
     });
     alert.present();

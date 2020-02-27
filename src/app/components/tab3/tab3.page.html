@@ -17,9 +17,6 @@
       <ion-item>
         <ion-input type="text" placeholder="Descripcion" [(ngModel)]="tarea.descripcion"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-input type="text" placeholder="Imagen" [(ngModel)]="tarea.imagen"></ion-input>
-      </ion-item>
       <ion-button fill="outline" expand="block" (click)="addTarea()" [disabled]="tarea.nombre == '' || tarea.cargo == '' || tarea.descripcion == '' || tarea.imagen == ''">Add Event</ion-button>
  
     </ion-card-content>

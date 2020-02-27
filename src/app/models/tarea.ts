@@ -3,5 +3,4 @@ export interface Tarea {
     nombre?: string;
     cargo?: string;
     descripcion?: string;
-    imagen?: string;
 }

@@ -24,7 +24,6 @@ export class Tab3Page implements OnInit {
     nombre: '',
     cargo: '',
     descripcion: '',
-    imagen: '',
   };
 
   eventSource: any = [];
@@ -97,8 +96,7 @@ export class Tab3Page implements OnInit {
     this.tarea = {
       nombre: '',
       cargo: '',
-      descripcion: '',
-      imagen: '',
+      descripcion: ''
     };
   }
 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TareasService } from "../../services/tareas.service";
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-tab1',
@@ -9,8 +11,9 @@ import { TareasService } from "../../services/tareas.service";
 export class Tab1Page implements OnInit {
 
   tareas: any = [];
+  tarea: any;
 
-  constructor(private tareaService: TareasService) {}
+  constructor(private tareaService: TareasService, private alertController: AlertController) {}
 
   ngOnInit(): void {
     this.tareaService.getTareas().subscribe(
@@ -33,4 +36,125 @@ export class Tab1Page implements OnInit {
     )
   }
 
+  async finalizar() {
+    const alert = await this.alertController.create({
+      header: 'Confirm!',
+      message: 'Estas seguro que deseas finalizar esta tarea?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            console.log('Confirm Okay');
+            //this.tareaService.updateTarea()
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async editar(id) {
+    await this.tareaService.getTarea(id).subscribe(
+      async res => {
+        this.tarea = res;
+        console.log(res)
+        const alert = await this.alertController.create({
+          header: 'Edita tu tarea!',
+          inputs: [
+            {
+              name: 'nombre',
+              type: "text",
+              value: this.tarea.nombre,
+              placeholder: 'Descripcion'
+            },
+            {
+              name: 'cargo',
+              type: "text",
+              value: this.tarea.cargo,
+              placeholder: 'Descripcion'
+            },
+            {
+              name: 'descripcion',
+              type: "text",
+              value: this.tarea.descripcion,
+              placeholder: 'Descripcion'
+            }
+          ],
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                console.log('Confirm Cancel');
+              }
+            }, {
+              text: 'Ok',
+              handler: async data => {
+                console.log('Confirm Ok', data);
+                await this.actualizar(this.tarea.id, data)
+              }
+            }
+          ]
+        });
+
+        await alert.present();
+      },
+      err => console.log(err)
+    )
+    
+  }
+
+  async actualizar(id, data) {
+    await this.tareaService.updateTarea(id, data).subscribe(
+      res =>{
+        console.log(res)
+        return res
+      },
+      err => {
+        console.log(err)
+        return err
+      }
+    ) 
+  }
+
+  async delete(id) {
+    const alert = await this.alertController.create({
+      header: 'Confirm!',
+      message: 'Message <strong>text</strong>!!!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Okay',
+          handler: async () => {
+            console.log('Confirm Okay');
+            await this.tareaService.deleteTarea(id).subscribe(
+              res => {
+                console.log(res)
+              },
+              err => {
+                console.log(err)
+              }
+            )
+          }
+        }
+        
+      ]
+    });
+    await alert.present();
+  }
 }

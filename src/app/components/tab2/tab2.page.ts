@@ -37,7 +37,7 @@ export class Tab2Page implements OnInit {
     this.resetEvent();
     this.tareaService.getEventos().subscribe(
       res => {
-        this.eventSource = res[0]
+        this.eventSource = res
         console.log(this.eventSource)
         this.myCal.loadEvents();
       },

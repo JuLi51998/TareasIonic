@@ -28,6 +28,9 @@ export class TareasService {
     return this.http.post(`${this.API_URI}/eventos`, evento)
   }
   deleteTarea(id: string) {
-    return this.http.delete(`${this.API_URI}/tareasi${id}`)
+    return this.http.delete(`${this.API_URI}/tareas/${id}`)
+  }
+  updateTarea(id: string, tarea: Tarea) {
+    return this.http.put(`${this.API_URI}/tareas/${id}`, tarea)
   }
 }

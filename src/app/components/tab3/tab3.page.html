@@ -4,7 +4,7 @@
 
 <ion-content>
   <ion-card>
-    <ion-card-header tappable (click)="collapseCard = !collapseCard">
+    <ion-card-header (click)="collapseCard = !collapseCard">
       <ion-card-title>Nueva Tarea</ion-card-title>
     </ion-card-header>
     <ion-card-content *ngIf="!collapseCard">
@@ -17,12 +17,12 @@
       <ion-item>
         <ion-input type="text" placeholder="Descripcion" [(ngModel)]="tarea.descripcion"></ion-input>
       </ion-item>
-      <ion-button fill="outline" expand="block" (click)="addTarea()" [disabled]="tarea.nombre == '' || tarea.cargo == '' || tarea.descripcion == '' || tarea.imagen == ''">Add Event</ion-button>
+      <ion-button fill="outline" expand="block" (click)="addTarea()" [disabled]="tarea.nombre == '' || tarea.cargo == '' || tarea.descripcion == '' || tarea.imagen == ''">Crear Tarea</ion-button>
  
     </ion-card-content>
   </ion-card>
   <ion-card>
-    <ion-card-header tappable (click)="collapseCard = !collapseCard">
+    <ion-card-header (click)="collapseCard = !collapseCard">
       <ion-card-title>New Event</ion-card-title>
     </ion-card-header>
     <ion-card-content *ngIf="!collapseCard">
@@ -44,7 +44,7 @@
         <ion-label>All Day</ion-label>
         <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
       </ion-item>
-      <ion-button fill="outline" expand="block" (click)="addEvent()" [disabled]="event.title == ''">Add Event</ion-button>
+      <ion-button fill="outline" expand="block" (click)="addEvent()" [disabled]="event.title == ''">Crear Evento</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

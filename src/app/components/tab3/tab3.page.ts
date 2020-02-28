@@ -36,7 +36,7 @@ export class Tab3Page implements OnInit {
 
   }
 
-  addEvent() {
+  async addEvent() {
     let eventCopy = {
       title: this.event.title,
       descr: this.event.descr,
@@ -49,15 +49,13 @@ export class Tab3Page implements OnInit {
       let start = eventCopy.startTime;
       let end = eventCopy.endTime;
  
-      eventCopy.startTime = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate()));
-      eventCopy.endTime = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate() + 1));
+      //eventCopy.startTime = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate()));
+      //eventCopy.endTime = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate() + 1));
     }
  
     //this.eventSource.push(eventCopy);
-    console.log(eventCopy)
-    this.tareaService.saveEvent(eventCopy).subscribe(
+    await this.tareaService.saveEvent(eventCopy).subscribe(
       res => {
-        console.log(res)
         this.resetEvent();
       },
       err => console.log(err)
@@ -72,8 +70,6 @@ export class Tab3Page implements OnInit {
   }
 
   addTarea() {
-    //this.eventSource.push(eventCopy);
-    console.log(this.tarea)
     this.tareaService.saveTarea(this.tarea).subscribe(
       res => {
         console.log(res);

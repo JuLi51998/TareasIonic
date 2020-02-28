@@ -37,22 +37,28 @@ export class Tab2Page implements OnInit {
     this.resetEvent();
     this.tareaService.getEventos().subscribe(
       res => {
-        this.eventSource = res
-        console.log(this.eventSource)
+        this.eventSource = res;
+        for(let i = 0; i <= this.eventSource.length; i++){
+          this.eventSource[i].startTime = new Date(this.eventSource[i].startTime);
+          this.eventSource[i].endTime = new Date(this.eventSource[i].endTime);
+        }
         this.myCal.loadEvents();
       },
       err => console.log(err)
     )
   }
 
-  doRefresh(event) {
-    console.log('Begin async operation');
-    this.tareaService.getEventos().subscribe(
-      res => {
-        console.log(res)
-        this.myCal.loadEvents();
+  async doRefresh(event) {
+    await this.tareaService.getEventos().subscribe(
+      res => {        
+        this.eventSource = res;
         event.target.complete();
-        console.log('Async operation has ended');
+        for(let i = 0; i <= this.eventSource.length; i++){
+          this.eventSource[i].startTime = new Date(this.eventSource[i].startTime);
+          this.eventSource[i].endTime = new Date(this.eventSource[i].endTime);
+        }
+        this.myCal.loadEvents();
+        
       },
       err => console.log(err)
     )

@@ -36,6 +36,16 @@ export class Tab1Page implements OnInit {
     )
   }
 
+  refresh() {
+    this.tareaService.getTareas().subscribe(
+      res => {
+        this.tareas = res;
+        console.log('Async operation has ended');
+      },
+      err => console.log(err)
+    )
+  }
+
   async finalizar() {
     const alert = await this.alertController.create({
       header: 'Confirm!',
@@ -101,6 +111,7 @@ export class Tab1Page implements OnInit {
               handler: async data => {
                 console.log('Confirm Ok', data);
                 await this.actualizar(this.tarea.id, data)
+                this.refresh();
               }
             }
           ]
@@ -143,8 +154,15 @@ export class Tab1Page implements OnInit {
           handler: async () => {
             console.log('Confirm Okay');
             await this.tareaService.deleteTarea(id).subscribe(
-              res => {
+              async res => {
                 console.log(res)
+                await this.tareaService.getTareas().subscribe(
+                  res => {
+                    this.tareas = res;
+                    console.log('Async operation has ended');
+                  },
+                  err => console.log(err)
+                )
               },
               err => {
                 console.log(err)

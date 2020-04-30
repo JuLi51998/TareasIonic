@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { User } from "../../shared/user.class";
+import { Storage } from '@ionic/storage';
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -12,7 +15,9 @@ export class LoginPage implements OnInit {
 
   user: User = new User();
 
-  constructor(private authSvc: AuthService, private router: Router) { }
+  constructor(private authSvc: AuthService, private router: Router, private storage: Storage, private alertController: AlertController) { 
+    //this.authSvc.tokenValidation();
+  }
 
   ngOnInit() {
   }
@@ -20,9 +25,25 @@ export class LoginPage implements OnInit {
   async onLogin() {
     const user = await this.authSvc.onLogin(this.user);
     if(user) {
-      console.log('Logueado con exito')
-      this.router.navigateByUrl('/');
+      this.storage.set('token' , user.user.refreshToken);
+      this.router.navigateByUrl('/tabs/tab1');
+      console.log('Logueado con exito');
     }
   }
+  data() {
+    this.storage.get('token').then((val) => {
+      this.presentAlert(val);
+    });
+  }
 
+  async presentAlert(val) {
+    const alert = await this.alertController.create({
+      header: val,
+      subHeader: 'Subtitle',
+      message: 'This is an alert message.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 }

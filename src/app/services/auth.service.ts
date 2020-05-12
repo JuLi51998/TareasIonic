@@ -16,7 +16,7 @@ export class AuthService{
 
   constructor(public afAuth: AngularFireAuth, private storage: Storage, private router: Router) {
     //this.tokenValidation();
-    afAuth.authState.subscribe(user => {this.token = user.refreshToken; this.isLogged = user; console.log(this.token);});
+    afAuth.authState.subscribe(user => {this.isLogged = user});
   }
 
   async onLogin(user: User) {

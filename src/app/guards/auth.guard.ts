@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
-    if(this.authSvc.isLogged || this.authSvc.token ) {
+    if(this.authSvc.isLogged) {
       return true;
     }
     console.log('Acceso denegado');

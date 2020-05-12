@@ -8,9 +8,9 @@ import { Evento } from "../models/evento";
 })
 export class TareasService {
 
-  //API_URI = 'https://api-rest-apptareas.herokuapp.com';
+  API_URI = 'https://api-rest-apptareas.herokuapp.com';
 
-  API_URI = 'http://localhost:3000'
+  //API_URI = 'http://localhost:3000'
   
   constructor(private http: HttpClient) { }
   

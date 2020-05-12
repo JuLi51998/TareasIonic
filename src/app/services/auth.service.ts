@@ -23,7 +23,7 @@ export class AuthService{
     try {
       return await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
     } catch(error) {
-      console.log('Error al loguear ', error);
+      return error;
     }
   }
 
@@ -31,7 +31,7 @@ export class AuthService{
     try {
       return await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
     } catch (error) {
-      console.log("Error al registrarse ", error);
+      return error;console.log("Error al registrarse ", error);
     }
   }
 

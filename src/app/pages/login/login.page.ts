@@ -24,10 +24,18 @@ export class LoginPage implements OnInit {
 
   async onLogin() {
     const user = await this.authSvc.onLogin(this.user);
-    if(user) {
+
+    if(!user.message) {
       this.storage.set('token' , user.user.refreshToken);
       this.router.navigateByUrl('/tabs/tab1');
       console.log('Logueado con exito');
+    } else {
+      var val = {
+        header: 'Error',
+        subHeader: '',
+        message: user.message,
+      }
+      this.presentAlert(val);
     }
   }
   data() {
@@ -38,9 +46,9 @@ export class LoginPage implements OnInit {
 
   async presentAlert(val) {
     const alert = await this.alertController.create({
-      header: val,
-      subHeader: 'Subtitle',
-      message: 'This is an alert message.',
+      header: val.header,
+      subHeader: val.subHeader,
+      message: val.message,
       buttons: ['OK']
     });
 

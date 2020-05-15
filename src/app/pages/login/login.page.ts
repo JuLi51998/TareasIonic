@@ -54,4 +54,9 @@ export class LoginPage implements OnInit {
 
     await alert.present();
   }
+
+  /*async getUser() {
+    var user = await this.authSvc.getUser();
+    console.log(user);
+  }*/
 }

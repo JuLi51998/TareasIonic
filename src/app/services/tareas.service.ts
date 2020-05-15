@@ -14,19 +14,20 @@ export class TareasService {
   
   constructor(private http: HttpClient) { }
   
-  getTareas() {
-    return this.http.get(`${this.API_URI}/tareas`)
+  getTareas(id_user: string) {
+    return this.http.get(`${this.API_URI}/tarea/${id_user}`)
   }
   getTarea(id: string) {
     return this.http.get(`${this.API_URI}/tareas/${id}`)
   }
-  getEventos() {
-    return this.http.get(`${this.API_URI}/eventos`)
+  getEventos(id_user: string) {
+    return this.http.get(`${this.API_URI}/eventos/${id_user}`)
   }
   saveTarea(tarea: Tarea){
     return this.http.post(`${this.API_URI}/tareas`, tarea)
   }
   saveEvent(evento: Evento) {
+    debugger
     return this.http.post(`${this.API_URI}/eventos`, evento)
   }
   deleteTarea(id: string) {

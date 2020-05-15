@@ -4,6 +4,7 @@ import { User } from "../shared/user.class";
 import { Storage } from '@ionic/storage';
 import { isDefined } from '@angular/compiler/src/util';
 import { Router } from "@angular/router";
+import { auth } from 'firebase';
 
 
 @Injectable({
@@ -19,6 +20,12 @@ export class AuthService{
     afAuth.authState.subscribe(user => {this.isLogged = user});
   }
 
+  getUser() {
+    var userId = this.afAuth.auth.currentUser;
+    if (userId != null) {
+      return userId;
+    }
+  }
   async onLogin(user: User) {
     try {
       return await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);

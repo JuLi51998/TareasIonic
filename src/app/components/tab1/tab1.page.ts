@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TareasService } from "../../services/tareas.service";
 import { AlertController } from '@ionic/angular';
+import { AuthService } from "../../services/auth.service";
 
 
 @Component({
@@ -12,11 +13,14 @@ export class Tab1Page implements OnInit {
 
   tareas: any = [];
   tarea: any;
+  userId: string;
 
-  constructor(private tareaService: TareasService, private alertController: AlertController) {}
+  constructor(private tareaService: TareasService, private alertController: AlertController, private authSvc: AuthService) {
+    this.userId = authSvc.getUser().uid;
+  }
 
   ngOnInit(): void {
-    this.tareaService.getTareas().subscribe(
+    this.tareaService.getTareas(this.userId).subscribe(
       res => {
         this.tareas = res;
       },
@@ -26,7 +30,7 @@ export class Tab1Page implements OnInit {
 
   doRefresh(event) {
     console.log('Begin async operation');
-    this.tareaService.getTareas().subscribe(
+    this.tareaService.getTareas(this.userId).subscribe(
       res => {
         this.tareas = res;
         event.target.complete();
@@ -37,7 +41,7 @@ export class Tab1Page implements OnInit {
   }
 
   refresh() {
-    this.tareaService.getTareas().subscribe(
+    this.tareaService.getTareas(this.userId).subscribe(
       res => {
         this.tareas = res;
         console.log('Async operation has ended');

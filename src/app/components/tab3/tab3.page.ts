@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TareasService } from "../../services/tareas.service";
 import { CalendarComponent } from "ionic2-calendar/calendar";
 import { AlertController } from '@ionic/angular';
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-tab3',
@@ -15,7 +16,8 @@ export class Tab3Page implements OnInit {
     descr: '',
     startTime: '',
     endTime: '',
-    allDay: false
+    allDay: false,
+    id_user: this.authSvc.getUser().uid
   };
 
   minDate = new Date().toISOString();
@@ -24,13 +26,17 @@ export class Tab3Page implements OnInit {
     nombre: '',
     cargo: '',
     descripcion: '',
+    id_user: this.authSvc.getUser().uid
   };
 
+  userId: string;
   eventSource: any = [];
 
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
 
-  constructor(private tareaService: TareasService, private alertCtrl: AlertController) {}
+  constructor(private tareaService: TareasService, private alertCtrl: AlertController, private authSvc: AuthService) {
+    this.userId = authSvc.getUser().uid;
+  }
 
   ngOnInit(): void {
 
@@ -42,7 +48,8 @@ export class Tab3Page implements OnInit {
       descr: this.event.descr,
       startTime:  new Date(this.event.startTime),
       endTime: new Date(this.event.endTime),
-      allDay: this.event.allDay
+      allDay: this.event.allDay,
+      id_user: this.userId
     }
  
     if (eventCopy.allDay) {
@@ -53,7 +60,6 @@ export class Tab3Page implements OnInit {
       //eventCopy.endTime = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate() + 1));
     }
  
-    //this.eventSource.push(eventCopy);
     await this.tareaService.saveEvent(eventCopy).subscribe(
       res => {
         this.resetEvent();
@@ -83,16 +89,18 @@ export class Tab3Page implements OnInit {
     this.event = {
       title: '',
       descr: '',
-      startTime: new Date().toISOString(),
-      endTime: new Date().toISOString(),
-      allDay: false
+      startTime: '',
+      endTime: '',
+      allDay: false,
+      id_user: ''
     };
   }
   resetTarea() {
     this.tarea = {
       nombre: '',
       cargo: '',
-      descripcion: ''
+      descripcion: '',
+      id_user: ''
     };
   }
 

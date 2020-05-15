@@ -160,7 +160,7 @@ export class Tab1Page implements OnInit {
             await this.tareaService.deleteTarea(id).subscribe(
               async res => {
                 console.log(res)
-                await this.tareaService.getTareas().subscribe(
+                await this.tareaService.getTareas(this.userId).subscribe(
                   res => {
                     this.tareas = res;
                     console.log('Async operation has ended');

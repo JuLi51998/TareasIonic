@@ -87,13 +87,13 @@ export class Tab1Page implements OnInit {
               name: 'nombre',
               type: "text",
               value: this.tarea.nombre,
-              placeholder: 'Descripcion'
+              placeholder: 'Nombre'
             },
             {
               name: 'cargo',
               type: "text",
               value: this.tarea.cargo,
-              placeholder: 'Descripcion'
+              placeholder: 'Materia'
             },
             {
               name: 'descripcion',
@@ -104,14 +104,14 @@ export class Tab1Page implements OnInit {
           ],
           buttons: [
             {
-              text: 'Cancel',
+              text: 'Cancelar',
               role: 'cancel',
               cssClass: 'secondary',
               handler: () => {
                 console.log('Confirm Cancel');
               }
             }, {
-              text: 'Ok',
+              text: 'Guardar',
               handler: async data => {
                 console.log('Confirm Ok', data);
                 await this.actualizar(this.tarea.id, data)
@@ -143,27 +143,27 @@ export class Tab1Page implements OnInit {
 
   async delete(id) {
     const alert = await this.alertController.create({
-      header: 'Confirm!',
-      message: 'Message <strong>text</strong>!!!',
+      header: 'Eliminar!',
+      message: 'Se eliminara la tarea, estas seguro?',
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            //console.log('Tarea no eliminada');
           }
         }, {
-          text: 'Okay',
+          text: 'Si',
           handler: async () => {
-            console.log('Confirm Okay');
+            console.log('Eliminando');
             await this.tareaService.deleteTarea(id).subscribe(
               async res => {
                 console.log(res)
                 await this.tareaService.getTareas(this.userId).subscribe(
                   res => {
                     this.tareas = res;
-                    console.log('Async operation has ended');
+                    console.log('Cargando...');
                   },
                   err => console.log(err)
                 )

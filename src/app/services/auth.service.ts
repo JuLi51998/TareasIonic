@@ -16,8 +16,9 @@ export class AuthService{
   public token: any;
 
   constructor(public afAuth: AngularFireAuth, private storage: Storage, private router: Router) {
-    //this.tokenValidation();
-    afAuth.authState.subscribe(user => {this.isLogged = user});
+    afAuth.authState.subscribe(user => {
+      this.isLogged = user
+    });
   }
 
   getUser() {
@@ -38,7 +39,7 @@ export class AuthService{
     try {
       return await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
     } catch (error) {
-      return error;console.log("Error al registrarse ", error);
+      return error;
     }
   }
 
